@@ -1,205 +1,156 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>Share Flex Message Ready</title>
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-    <style>
-        body {
-            margin: 0;
-            font-family: sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: #eef2ff;
-        }
-        .msg {
-            display: none;
-            padding: 20px 30px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            font-size: 18px;
-            text-align: center;
-            color: #333;
-        }
-        #errorMsg { 
-            color: #d9534f;
-            word-break: break-word;
-            max-width: 80vw;
-        }
-    </style>
-</head>
-<body>
-    <div class="msg" id="loadingMsg">⏳ กำลังเริ่มต้น LIFF และเตรียมการแชร์...</div>
-    <div class="msg" id="successMsg">✅ แชร์ให้เพื่อน ๆ สำเร็จแล้ว</div>
-    <div class="msg" id="errorMsg">❌ เกิดข้อผิดพลาดในการแชร์</div> 
-
-    <script>
-        // แก้ไขโครงสร้าง flexMessage ให้ถูกต้อง
-        const flexMessage = {
-            type: "flex",
-            altText: "📚 แนะนำหนังสือน่าอ่าน โดย นตท.ชั้นปีที่ 2",
-            contents: {
-"type": "carousel",
-                "contents": [
-                    {
-                        "type": "bubble",
-                        "body": {
-                            "type": "box",
-                            "layout": "vertical",
-                            "contents": [
-                                {
-                                    "type": "image",
-                                    "url": "https://img5.pic.in.th/file/secure-sv1/S__7938079.jpg",
-                                    "size": "full",
-                                    "animated": true,
-                                    "aspectMode": "cover",
-                                    "aspectRatio": "2.3:3"
-                                },
-                                {
-                                    "type": "button",
-                                    "action": {
-                                        "type": "uri",
-                                        "uri": "https://liff.line.me/2008860345-MzWXQQKP",
-                                        "label": "ดูรายละเอียด"
-                                    },
-                                    "position": "absolute",
-                                    "offsetTop": "90%",
-                                    "offsetEnd": "30%",
-                                    "offsetStart": "35%"
-                                }
-                            ],
-                            "paddingAll": "none"
-                        }
-                    },
-                    {
-                        "type": "bubble",
-                        "hero": {
-                            "type": "image",
-                            "url": "https://img2.pic.in.th/S__7938080_0.jpg",
-                            "size": "full",
-                            "aspectMode": "cover",
-                            "aspectRatio": "2.9:3",
-                            "animated": true,
-                            "action": {
-                                "type": "uri",
-                                "label": "action",
-                                "uri": "https://youtube.com/shorts/zmuIZK8EVv4?si=sEQR7Wg5K8_rCzCe"
-                            }
-                        },
-                        "body": {
-                            "type": "box",
-                            "layout": "vertical",
-                            "backgroundColor": "#F54927",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "ชีวิตของเรามีแค่สี่พันสัปดาห์",
-                                    "weight": "bold",
-                                    "size": "md",
-                                    "color": "#E8E8E8",
-                                    "wrap": true
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "แนะนำโดย : รณกร บุตรวงค์",
-                                    "size": "sm",
-                                    "color": "#E8E8E8",
-                                    "wrap": true
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "type": "bubble",
-                        "hero": {
-                            "type": "image",
-                            "url": "https://img2.pic.in.th/S__7938081_0.jpg",
-                            "size": "full",
-                            "aspectMode": "cover",
-                            "aspectRatio": "2.9:3",
-                            "animated": true,
-                            "action": {
-                                "type": "uri",
-                                "label": "action",
-                                "uri": "https://youtube.com/shorts/ZUfYiyaQWZk?si=2_IZOPmth_z-Jo8J"
-                            }
-                        },
-                        "body": {
-                            "type": "box",
-                            "layout": "vertical",
-                            "backgroundColor": "#F54927",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "คนจรดาบ",
-                                    "weight": "bold",
-                                    "size": "md",
-                                    "color": "#E8E8E8",
-                                    "wrap": true
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "แนะนำโดย : ศุภวิชญ์ ทองนุ้ย",
-                                    "size": "sm",
-                                    "color": "#E8E8E8",
-                                    "wrap": true
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }
-        };
-
-        function displayMessage(id) {
-            document.querySelectorAll('.msg').forEach(el => el.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-        }
-
-        async function main() {
-            displayMessage('loadingMsg');
-            
-            try {
-                // ตรวจสอบ LIFF ID ให้ตรงกับใน Console
-                await liff.init({ liffId: "2008860345-MzWXQQKP" });  
-
-                if (!liff.isLoggedIn()) {
-                    liff.login();
-                    return;
-                }
-                
-                if (!liff.isApiAvailable("shareTargetPicker")) {
-                    throw new Error("API shareTargetPicker ไม่รองรับ (โปรดเปิดในแอป LINE)");
-                }
-
-                document.getElementById("loadingMsg").style.display = "none";
-
-                // เรียกใช้ shareTargetPicker
-                const result = await liff.shareTargetPicker([flexMessage]);
-                
-                if (result) {
-                    displayMessage('successMsg');
-                    setTimeout(() => liff.closeWindow(), 2000);
-                } else {
-                    liff.closeWindow();
-                }
-
-            } catch (err) {
-                console.error("Share Error:", err);
-                const errorMsgElement = document.getElementById('errorMsg');
-                errorMsgElement.innerHTML = `❌ เกิดข้อผิดพลาดในการแชร์: <br> ${err.message || 'ไม่ทราบสาเหตุ'}`;
-                displayMessage('errorMsg'); 
-                // ปิดหน้าต่างหลังจาก 5 วินาทีหากเกิดข้อผิดพลาด
-                setTimeout(() => liff.closeWindow(), 5000); 
-            }
-        }
-
-        main();
-    </script>
-</body>
+<!DOCTYPE html> 
+<html lang="th"> 
+<head> 
+  <meta charset="UTF-8" /> 
+  <title>Share Flex Message</title> 
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script> 
+  <style> 
+    body { 
+      font-family: sans-serif; 
+      background: #0b1c2d; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      height: 100vh; 
+    } 
+    button { 
+      padding: 16px 24px; 
+      font-size: 16px; 
+      border: none; 
+      border-radius: 10px; 
+      background: linear-gradient(135deg, #1e3c72, #f5c77a); 
+      color: #fff; 
+      cursor: pointer; 
+    } 
+  </style> 
+</head> 
+ 
+<body> 
+ 
+<button onclick="shareFlex()">📤 แชร์ให้เพื่อนใน LINE</button> 
+ 
+<script> 
+const LIFF_ID = "2008860345-MzWXQQKP"; // ต้องเป็น LIFF ที่ผูก Messaging API 
+ 
+liff.init({ liffId: LIFF_ID }) 
+  .then(() => { 
+    if (!liff.isInClient()) { 
+      alert("กรุณาเปิดผ่านแอป LINE เท่านั้น"); 
+    } 
+  }) 
+  .catch(err => { 
+    alert("LIFF init error: " + err); 
+  }); 
+ 
+function shareFlex() { 
+  liff.shareTargetPicker([ 
+    { 
+      type: "flex", 
+      altText: "แนะนำหนังสือน่าอ่าน", 
+      contents: { 
+        type: "carousel", 
+        contents: [ 
+ 
+          /* ===== Bubble 1 : หน้าปก ===== */ 
+          { 
+            type: "bubble", 
+            hero: { 
+              type: "image", 
+              url: "https://img5.pic.in.th/file/secure-sv1/S__7938079.jpg", 
+              size: "full", 
+              aspectMode: "cover", 
+              aspectRatio: "2.3:3" 
+            }, 
+            body: { 
+              type: "box", 
+              layout: "vertical", 
+              paddingAll: "0px", 
+              contents: [] 
+            } 
+          }, 
+ 
+          /* ===== Bubble 2 : หนังสือเล่มที่ 1 ===== */ 
+          { 
+            type: "bubble", 
+            action: { 
+              type: "uri", 
+              uri: "https://youtube.com/shorts/zmuIZK8EVv4?si=sEQR7Wg5K8_rCzCe" 
+            }, 
+            hero: { 
+              type: "image", 
+              url: "https://img2.pic.in.th/S__7938080_0.jpg", 
+              size: "full", 
+              aspectMode: "cover", 
+              aspectRatio: "2.9:3" 
+            }, 
+            body: { 
+              type: "box", 
+              layout: "vertical", 
+              paddingTop: "0px", 
+              backgroundColor: "#0b1c2d", 
+              contents: [ 
+                { 
+                  type: "text", 
+                  text: "ชีวิตของเรามีแค่สี่พันสัปดาห์", 
+                  weight: "bold", 
+                  color: "#E8E8E8", 
+                  wrap: true 
+                }, 
+                { 
+                  type: "text", 
+                  text: "แนะนำโดย :  รณกร บุตรวงค์", 
+                  size: "sm", 
+                  color: "#E8E8E8", 
+                  wrap: true 
+                } 
+              ] 
+            } 
+          }, 
+ 
+          /* ===== Bubble 3 : หนังสือเล่มที่ 2 ===== */ 
+          { 
+            type: "bubble", 
+            action: { 
+              type: "uri", 
+              uri: "https://youtube.com/shorts/ZUfYiyaQWZk?si=2_IZOPmth_z-Jo8J" 
+            }, 
+            hero: { 
+              type: "image", 
+              url: "https://img2.pic.in.th/S__7938081_0.jpg", 
+              size: "full", 
+              aspectMode: "cover", 
+              aspectRatio: "2.9:3" 
+            }, 
+            body: { 
+              type: "box", 
+              layout: "vertical", 
+              paddingTop: "0px", 
+              backgroundColor: "#0b1c2d", 
+              contents: [ 
+                { 
+                  type: "text", 
+                  text: "คนจรดาบ", 
+                  weight: "bold", 
+                  color: "#E8E8E8", 
+                  wrap: true 
+                }, 
+                { 
+                  type: "text", 
+                  text: "แนะนำโดย : ศุภวิชญ์ ทองนุ้ย", 
+                  size: "sm", 
+                  color: "#E8E8E8", 
+                  wrap: true 
+                } 
+              ] 
+            } 
+          } 
+ 
+        ] 
+      } 
+    } 
+  ]); 
+} 
+</script> 
+ 
+</body> 
 </html>
-
-
