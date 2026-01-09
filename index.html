@@ -52,22 +52,34 @@ function shareFlex() {
         contents: [ 
  
           /* ===== Bubble 1 : หน้าปก ===== */ 
-          { 
-            type: "bubble", 
-            hero: { 
-              type: "image", 
-              url: "https://img5.pic.in.th/file/secure-sv1/S__7938079.jpg", 
-              size: "full", 
-              aspectMode: "cover", 
-              aspectRatio: "2.3:3" 
-            }, 
-            body: { 
-              type: "box", 
-              layout: "vertical", 
-              paddingAll: "0px", 
-              contents: [] 
-            } 
-          }, 
+           {
+            "type": "image",
+            "url": "https://img5.pic.in.th/file/secure-sv1/S__7938079.jpg",
+            "size": "full",
+            "animated": true,
+            "aspectMode": "cover",
+            "aspectRatio": "2.3:3",
+            "offsetBottom": "none"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "uri": "https://liff.line.me/2008860345-MzWXQQKP",
+              "label": "    "
+            },
+            "position": "absolute",
+            "offsetTop": "90%",
+            "offsetEnd": "30%",
+            "gravity": "bottom",
+            "offsetStart": "35%",
+            "offsetBottom": "0%"
+          }
+        ],
+        "borderWidth": "none",
+        "paddingAll": "none"
+      }
+    },
  
           /* ===== Bubble 2 : หนังสือเล่มที่ 1 ===== */ 
           { 
@@ -154,3 +166,4 @@ function shareFlex() {
  
 </body> 
 </html>
+
