@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Share Flex Message Ready</title>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #eef2ff;
+}
+.msg {
+    display: none;
+    padding: 20px 30px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    font-size: 18px;
+    text-align: center;
+}
+#errorMsg { color:#d9534f; }
+</style>
+</head>
+
+<body>
+<div class="msg" id="loadingMsg">⏳ กำลังเตรียมการแชร์...</div>
+<div class="msg" id="successMsg">✅ แชร์สำเร็จแล้ว</div>
+<div class="msg" id="errorMsg">❌ เกิดข้อผิดพลาด</div>
+
+<script>
+const flexMessage = {
+  type: "flex",
+  altText: "📚 แนะนำหนังสือน่าอ่าน",
+  contents: {
+    type: "carousel",
+    contents: [
+
+      {
+        type: "bubble",
+        body: {
+          type: "box",
+          layout: "vertical",
+          paddingAll: "0px",
+          contents: [
+            {
+              type: "image",
+              url: "https://img5.pic.in.th/file/secure-sv1/S__7938079.jpg",
+              size: "full",
+              aspectMode: "cover",
+              aspectRatio: "2.3:3"
+            },
+            {
+              type: "button",
+              position: "absolute",
+              offsetTop: "85%",
+              offsetStart: "30%",
+              action: {
+                type: "uri",
+                label: "เปิด",
+                uri: "https://liff.line.me/2008860345-MzWXQQKP"
+              }
+            }
+          ]
+        }
+      },
+
+      {
+        type: "bubble",
+        hero: {
+          type: "image",
+          url: "https://img2.pic.in.th/S__7938080_0.jpg",
+          size: "full",
+          aspectMode: "cover",
+          aspectRatio: "2.9:3",
+          action: {
+            type: "uri",
+            uri: "https://youtube.com/shorts/zmuIZK8EVv4"
+          }
+        },
+        body: {
+          type: "box",
+          layout: "vertical",
+          backgroundColor: "#F54927",
+          contents: [
+            {
+              type: "text",
+              text: "ชีวิตของเรามีแค่สี่พันสัปดาห์",
+              weight: "bold",
+              color: "#FFFFFF"
+            },
+            {
+              type: "text",
+              text: "แนะนำโดย : รณกร บุตรวงค์",
+              size: "sm",
+              color: "#FFFFFF"
+            }
+          ]
+        }
+      },
+
+      {
+        type: "bubble",
+        hero: {
+          type: "image",
+          url: "https://img2.pic.in.th/S__7938081_0.jpg",
+          size: "full",
+          aspectMode: "cover",
+          aspectRatio: "2.9:3",
+          action: {
+            type: "uri",
+            uri: "https://youtube.com/shorts/ZUfYiyaQWZk"
+          }
+        },
+        body: {
+          type: "box",
+          layout: "vertical",
+          backgroundColor: "#F54927",
+          contents: [
+            {
+              type: "text",
+              text: "คนจรดาบ",
+              weight: "bold",
+              color: "#FFFFFF"
+            },
+            {
+              type: "text",
+              text: "แนะนำโดย : ศุภวิชญ์ ทองนุ้ย",
+              size: "sm",
+              color: "#FFFFFF"
+            }
+          ]
+        }
+      }
+
+    ]
+  }
+};
+
+function display(id){
+  document.querySelectorAll('.msg').forEach(m=>m.style.display="none");
+  document.getElementById(id).style.display="block";
+}
+
+async function main(){
+  try{
+    display("loadingMsg");
+    await liff.init({ liffId:"2007236505-Lbr300GA" });
+
+    if(!liff.isLoggedIn()){
+      liff.login();
+      return;
+    }
+
+    await liff.shareTargetPicker([flexMessage]);
+    display("successMsg");
+    setTimeout(()=>liff.closeWindow(),2000);
+
+  }catch(e){
+    document.getElementById("errorMsg").innerText = e.message;
+    display("errorMsg");
+  }
+}
+main();
+</script>
+</body>
+</html>
