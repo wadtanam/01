@@ -52,7 +52,7 @@
                             "contents": [
                                 {
                                     "type": "image",
-                                    "url": "https://img2.pic.in.th/1765723953917.png",
+                                    "url": "https://img5.pic.in.th/file/secure-sv1/S__7938079.jpg",
                                     "size": "full",
                                     "animated": true,
                                     "aspectMode": "cover",
@@ -62,14 +62,13 @@
                                     "type": "button",
                                     "action": {
                                         "type": "uri",
-                                        "uri": "https://liff.line.me/2008853680-9HWMPEmj",
-                                        "label": " "
+                                        "uri": "https://liff.line.me/2008860345-MzWXQQKP",
+                                        "label": "ดูรายละเอียด"
                                     },
                                     "position": "absolute",
-                                    "offsetTop": "75%",
-                                    "offsetEnd": "18%",
-                                    "offsetStart": "15%",
-                                    "offsetBottom": "8%"
+                                    "offsetTop": "90%",
+                                    "offsetEnd": "30%",
+                                    "offsetStart": "35%"
                                 }
                             ],
                             "paddingAll": "none"
@@ -79,7 +78,7 @@
                         "type": "bubble",
                         "hero": {
                             "type": "image",
-                            "url": "https://img5.pic.in.th/file/secure-sv1/c7399a10da036045978ed3b9b24ef0a2.md.gif",
+                            "url": "https://img2.pic.in.th/S__7938080_0.jpg",
                             "size": "full",
                             "aspectMode": "cover",
                             "aspectRatio": "2.9:3",
@@ -87,27 +86,27 @@
                             "action": {
                                 "type": "uri",
                                 "label": "action",
-                                "uri": "https://l.instagram.com/?u=https%3A%2F%2Fyoutube.com%2Fshorts%2FEGVE8vjhQcY%3Fsi%3D_dRug-jGzpVB1n_M&e=AT1IpES8srB-gANKSz8Z0Bpuigk73o-SmSc8-4MqcAP-IGj5M2xzkSH6X8bJZFUuxeo3M-uNulY12C5MKz07hGUDV5kFAzPNABNWqACKqWZSkx1am-D1_bVbeNVh4LFjOZuppF8DaQtI"
+                                "uri": "https://youtube.com/shorts/zmuIZK8EVv4?si=sEQR7Wg5K8_rCzCe"
                             }
                         },
                         "body": {
                             "type": "box",
                             "layout": "vertical",
-                            "backgroundColor": "#FF3333",
+                            "backgroundColor": "#F54927",
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "ชื่อหนังสือ พูดอังกฤษ 160 ชม.",
+                                    "text": "ชีวิตของเรามีแค่สี่พันสัปดาห์",
                                     "weight": "bold",
                                     "size": "md",
-                                    "color": "#4A148C",
+                                    "color": "#E8E8E8",
                                     "wrap": true
                                 },
                                 {
                                     "type": "text",
-                                    "text": "แนะนำโดย : สิรภพ งาเฉลา",
+                                    "text": "แนะนำโดย : รณกร บุตรวงค์",
                                     "size": "sm",
-                                    "color": "#6A1B9A",
+                                    "color": "#E8E8E8",
                                     "wrap": true
                                 }
                             ]
@@ -117,7 +116,7 @@
                         "type": "bubble",
                         "hero": {
                             "type": "image",
-                            "url": "https://img5.pic.in.th/file/secure-sv1/-1df42a605931740f7.md.gif",
+                            "url": "https://img2.pic.in.th/S__7938081_0.jpg",
                             "size": "full",
                             "aspectMode": "cover",
                             "aspectRatio": "2.9:3",
@@ -125,27 +124,27 @@
                             "action": {
                                 "type": "uri",
                                 "label": "action",
-                                "uri": "https://youtu.be/X94FMhcuSqA?si=n22nfYcQRKL_sAjY"
+                                "uri": "https://youtube.com/shorts/ZUfYiyaQWZk?si=2_IZOPmth_z-Jo8J"
                             }
                         },
                         "body": {
                             "type": "box",
                             "layout": "vertical",
-                            "backgroundColor": "#FFFF66",
+                            "backgroundColor": "#F54927",
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "ครอบครัวตึ๋งหนืด",
+                                    "text": "คนจรดาบ",
                                     "weight": "bold",
                                     "size": "md",
-                                    "color": "#4A148C",
+                                    "color": "#E8E8E8",
                                     "wrap": true
                                 },
                                 {
                                     "type": "text",
-                                    "text": "แนะนำโดย : วิชญ์พล นาอ่าง",
+                                    "text": "แนะนำโดย : ศุภวิชญ์ ทองนุ้ย",
                                     "size": "sm",
-                                    "color": "#6A1B9A",
+                                    "color": "#E8E8E8",
                                     "wrap": true
                                 }
                             ]
@@ -164,8 +163,8 @@
             displayMessage('loadingMsg');
             
             try {
-                // ตรวจสอบ LIFF ID ให้ตรงกับใน Console
-                await liff.init({ liffId: "2008853680-9HWMPEmj" });  
+                // เริ่มต้น LIFF
+                await liff.init({ liffId: "2007236505-Lbr300GA" });  
 
                 if (!liff.isLoggedIn()) {
                     liff.login();
@@ -178,13 +177,14 @@
 
                 document.getElementById("loadingMsg").style.display = "none";
 
-                // เรียกใช้ shareTargetPicker
+                // ส่ง Flex Message ผ่าน Share Target Picker
                 const result = await liff.shareTargetPicker([flexMessage]);
                 
                 if (result) {
                     displayMessage('successMsg');
                     setTimeout(() => liff.closeWindow(), 2000);
                 } else {
+                    // กรณีผู้ใช้ยกเลิก
                     liff.closeWindow();
                 }
 
